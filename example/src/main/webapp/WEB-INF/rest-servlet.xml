@@ -26,6 +26,12 @@
             <property name="paramName" value="lang"/>
         </bean>
     </mvc:interceptors>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver"/>
 
     <!-- Unfortunately we have to repeat an instance of this class here because the mvc:message-converters element above

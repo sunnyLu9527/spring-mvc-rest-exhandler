@@ -35,9 +35,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Renders a response with a RESTful Error representation based on the error format discussed in
@@ -213,6 +211,13 @@ public class RestExceptionHandler extends AbstractHandlerExceptionResolver imple
 
     protected ModelAndView getModelAndView(ServletWebRequest webRequest, Object handler, RestError error) throws Exception {
 
+        if (webRequest.getHeader("x-requested-with") == null){// the request is synchronization
+            Map<String, Object> model = new HashMap<String, Object>();
+            model.put("error", error);
+            return new ModelAndView("error-business", model);
+        }
+
+        //the request is asynchronous
         applyStatusIfPossible(webRequest, error);
 
         Object body = error; //default the error instance in case they don't configure an error converter
